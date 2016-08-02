@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="a3536faa-12f2-4a8e-a9f6-f9a04de0e61d" name="official.id" url="http://official.id/extlp/lpjk">
+        <fileTransfer host="official.id" port="21" rootFolder="/lpjk" password="dfdddfcfdfc6dfc9dfc5dfc7dfcfdf9b" username="arif@official.id">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="21" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
