@@ -31,9 +31,9 @@ Ext.define('Extlp.view.activity.Evaluasi', {
 				}
 			},'->','search',{
 				xtype: 'textfield',
-				id: 'searchField',
-				itemId: 'searchField',
-				name: 'searchField',
+				id: 'searchFieldeval',
+				itemId: 'searchFieldeval',
+				name: 'searchFieldeval',
 				listeners: {
 					change: function(field, newValue) {
 
@@ -43,7 +43,7 @@ Ext.define('Extlp.view.activity.Evaluasi', {
 						// add filter if there is a search field value.
 						if (newValue && newValue.length > 0) {
 							var searchFilter = new Ext.util.Filter({
-								id: 'searchFilter',
+								id: 'searchFiltereval',
 								anyMatch: true,
 								caseSensitive: false,
 								property: 'c_bu_nama',

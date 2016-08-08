@@ -17,19 +17,19 @@ Ext.define('Extlp.view.kk.Kk', {
 		items: [
 			'->','search',{
 				xtype: 'textfield',
-				id: 'searchField',
-				itemId: 'searchField',
-				name: 'searchField',
+				id: 'searchFieldkk',
+				itemId: 'searchFieldkk',
+				name: 'searchFieldkk',
 				listeners: {
 					change: function(field, newValue) {
 
 						// remove the existing filter.
-						Ext.getStore('Kk').removeFilter('searchFilter');
+						Ext.getStore('Kk').removeFilter('searchFilterkk');
 
 						// add filter if there is a search field value.
 						if (newValue && newValue.length > 0) {
 							var searchFilter = new Ext.util.Filter({
-								id: 'searchFilter',
+								id: 'searchFilterkk',
 								anyMatch: true,
 								caseSensitive: false,
 								property: 'c_bu_nama',
