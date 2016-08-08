@@ -263,6 +263,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     			}]
     		},{
     			xtype: 'grid',
+
                 id: 'gridahli',
     			store: 'TmpAhliStore',
     			columns:[
@@ -449,7 +450,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 				        { text: 'Hasil Evaluasi', columns:[{
 				        		text:'Klasifikasi', dataIndex:'c_de_klasifikasi_e'
 				        	},{
-				        		text:'Subklasifikasi', dataIndex:'c_de_subkla_e'
+				        		text:'Subklasifikasis', dataIndex:'c_de_subkla_e'
 				        	},{
 				        		text:'Subkualifikasi', dataIndex:'c_de_subkua_e'
 				        	}]
