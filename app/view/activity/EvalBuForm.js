@@ -49,11 +49,12 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     				xtype:'textfield',
 					fieldLabel:'Nama BPJU',
 					labelWidth: 120,
-					name: 'c_eval'
+					name: 'c_evalbu_bpju'
     			},{
     				xtype:'textfield',
 					fieldLabel:'No KTP',
-					labelWidth: 120
+					labelWidth: 120,
+					name: 'c_evalbu_noktp'
     			},{
 					xtype: 'combobox',
 					name: 'c_jnsbu_id',
@@ -66,7 +67,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					minChars: 1,
 					typeAhead: true,
 					displayField:'c_jnsbu_nama',
-					valueField:'c_jsnbu_id',
+					valueField:'c_jnsbu_id',
 					labelWidth: 120,
 					margins: '0 10 0 0',
 					store: {
@@ -76,7 +77,18 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 							type: 'ajax',
 							url: 'services/crud/lookupjnsBu.php'
 						}
-					}
+					},
+					listeners:{
+						select : function (cmb, record, options) {
+							if(record.data.c_jnsbu_nama == 'PT'){
+								Ext.getCmp('c_evalbu_kb').setDisabled(false);
+								Ext.getCmp('c_evalbu_ms').setDisabled(false);
+							}else{
+								Ext.getCmp('c_evalbu_kb').setDisabled(true);
+								Ext.getCmp('c_evalbu_ms').setDisabled(true);
+							}
+						}
+					},
 				},{
 					xtype: 'combobox',
 					name: 'c_assoc_id',
@@ -104,12 +116,15 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     				xtype:'textfield',
 					fieldLabel:'Kekayaan Bersih',
 					labelWidth: 120,
-					name: 'c_evalbu_kb'
+					name: 'c_evalbu_kb',
+					id: 'c_evalbu_kb'
+
     			},{
     				xtype:'textfield',
 					fieldLabel:'Modal Setor',
 					labelWidth: 120,
-					name: 'c_evalbu_ms'
+					name: 'c_evalbu_ms',
+					id: 'c_evalbu_ms'
     			}]
     		}]
     	},{
@@ -141,13 +156,13 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					listeners:{
 						change : function (field, newValue, oldValue) {
 							console.log(newValue.data);
-                            var combotkt = Ext.getCmp('combo-tkt');
+                            var combotkt = Ext.getCmp('c_da_tingkat');
                             
 						},
                         select : function (cmb, record, options) {
 
 
-                            var autosCbx = Ext.getCmp('combo-tkt'),
+                            var autosCbx = Ext.getCmp('c_da_tingkat'),
                                 autosStore = autosCbx.getStore();
 
                             autosCbx.clearValue();
@@ -157,7 +172,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
                             })
                             autosCbx.enable();
 
-                            Ext.getCmp('combo-tkt').store.reload();
+                            Ext.getCmp('c_da_tingkat').store.reload();
 
                         }
 					}
@@ -191,7 +206,8 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     			},{
     				xtype:'combobox',
 					store: 'Tingkat',
-                    id: 'combo-tkt',
+					name: 'c_da_tingkat',
+                    id: 'c_da_tingkat',
 					fieldLabel:'Tingkat',
 					name: 'c_kuaprof_tingkat',
                     queryMode: 'local',
@@ -201,7 +217,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					fieldLabel: 'SKA',
 					xtype: 'datefield',
 					minDate: new Date(),
-					id: 'ska',
+					id: 'c_da_ska',
 					listeners: {
 						render: function(){
 							var picker = this.getPicker();
@@ -219,7 +235,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					fieldLabel: 'SKTK',
 					xtype: 'datefield',
 					minDate: new Date(),
-					id: 'sktk',
+					id: 'c_da_sktk',
 					listeners: {
 						render: function(){
 							var picker = this.getPicker();
@@ -246,6 +262,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     					var tingkat = Ext.getCmp('ahliform').getForm().findField('c_da_tingkat').getValue();
     					var ska = Ext.getCmp('ahliform').getForm().findField('c_da_ska').getValue();
     					var sktk = Ext.getCmp('ahliform').getForm().findField('c_da_sktk').getValue();
+						var noktp = Ext.getCmp('ahliform').getForm().findField('c_da_noktp').getValue();
     					var r = Ext.create('Extlp.model.EvalBu',{
     							c_da_nama: nama,
     							c_da_status: status,
@@ -254,7 +271,8 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     							c_da_noreg: noreg,
     							c_da_tingkat: tingkat,
     							c_da_ska: ska,
-    							c_da_sktk: sktk
+    							c_da_sktk: sktk,
+								c_da_noktp: noktp
        							});
 
     					Ext.getStore('TmpAhliStore').insert(Ext.getStore('TmpAhliStore').data.items.length,r);
@@ -269,6 +287,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     			columns:[
     					{ text: 'Nama', dataIndex: 'c_da_nama' },
 				        { text: 'Status', dataIndex: 'c_da_status'},
+						{ text: 'No KTP', dataIndex: 'c_da_noktp'},
 				        { text: 'Tanggal Cetak', columns:[{
 				        		text:'SKA',dataIndex:'c_da_ska'
 				        	},{
@@ -277,7 +296,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 				    	}
     			],
     			height: 200,
-				width: 400,
+				width: 500,
                 listeners: {
                     itemcontextmenu: function (view, record, item, i, e, opt) {
                             e.preventDefault();
@@ -450,7 +469,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 				        { text: 'Hasil Evaluasi', columns:[{
 				        		text:'Klasifikasi', dataIndex:'c_de_klasifikasi_e'
 				        	},{
-				        		text:'Subklasifikasis', dataIndex:'c_de_subkla_e'
+				        		text:'Subklasifikasi', dataIndex:'c_de_subkla_e'
 				        	},{
 				        		text:'Subkualifikasi', dataIndex:'c_de_subkua_e'
 				        	}]
@@ -485,9 +504,13 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     			var conn = new Ext.data.Connection();
     			var detEval = Ext.encode(Ext.pluck(Ext.getStore('TmpEvalStore').data.items,'data'));
     			var detAhli = Ext.encode(Ext.pluck(Ext.getStore('TmpAhliStore').data.items,'data'));
-    			var namabu =  Ext.getCmp('buform').getForm().findField('c_bu_id').getValue();
-    			var kb =  Ext.getCmp('buform').getForm().findField('c_evalbu_kb').getValue();
-    			var ms =  Ext.getCmp('buform').getForm().findField('c_evalbu_ms').getValue();
+    			var namabu  =  Ext.getCmp('buform').getForm().findField('c_bu_id').getValue();
+    			var kb      =  Ext.getCmp('buform').getForm().findField('c_evalbu_kb').getValue();
+    			var ms      =  Ext.getCmp('buform').getForm().findField('c_evalbu_ms').getValue();
+				var noktp   =  Ext.getCmp('buform').getForm().findField('c_evalbu_noktp').getValue();
+				var bpju    =  Ext.getCmp('buform').getForm().findField('c_evalbu_bpju').getValue();
+				var jnsbu   =  Ext.getCmp('buform').getForm().findField('c_jnsbu_id').getValue();
+				var assoc   =  Ext.getCmp('buform').getForm().findField('c_assoc_id').getValue();
     			
     			conn.request({
     				method: 'POST',
@@ -496,6 +519,10 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     					namabu: namabu,
     					kb: kb,
     					ms: ms,
+						noktp: noktp,
+						bpju: bpju,
+						jnsbu: jnsbu,
+						assoc: assoc,
     					detEval: detEval,
     					detAhli: detAhli
     				},
@@ -503,10 +530,10 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     					console.log('Berhasil');
     				}
     			});
-                Ext.getCmp('formbu').hide();
+                //Ext.getCmp('formbu').hide();
     			Ext.getStore('TmpEvalStore').removeAll();
     			Ext.getStore('TmpAhliStore').removeAll();
-				Ext.getCmp('eval-grid').store.reload();
+				//Ext.getCmp('eval-grid').store.reload();
     		}
     	}]
     }]
