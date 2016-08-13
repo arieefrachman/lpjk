@@ -155,7 +155,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					queryMode: 'local',
 					listeners:{
 						change : function (field, newValue, oldValue) {
-							console.log(newValue.data);
+
                             var combotkt = Ext.getCmp('c_da_tingkat');
                             
 						},
@@ -217,6 +217,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					fieldLabel: 'SKA',
 					xtype: 'datefield',
 					minDate: new Date(),
+					format: 'Y-m-d',
 					id: 'c_da_ska',
 					listeners: {
 						render: function(){
@@ -235,6 +236,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					fieldLabel: 'SKTK',
 					xtype: 'datefield',
 					minDate: new Date(),
+					format: 'Y-m-d',
 					id: 'c_da_sktk',
 					listeners: {
 						render: function(){
@@ -289,9 +291,9 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 				        { text: 'Status', dataIndex: 'c_da_status'},
 						{ text: 'No KTP', dataIndex: 'c_da_noktp'},
 				        { text: 'Tanggal Cetak', columns:[{
-				        		text:'SKA',dataIndex:'c_da_ska'
+				        		text:'SKA',dataIndex:'c_da_ska', xtype: 'datecolumn',format: 'Y-m-d'
 				        	},{
-				        		text: 'SKTK', dataIndex: 'c_da_sktk'
+				        		text: 'SKTK', dataIndex: 'c_da_sktk', xtype: 'datecolumn',format: 'Y-m-d'
 				        	}] 
 				    	}
     			],
@@ -336,25 +338,9 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
 					fieldLabel:'Tahun Kontrak',
 					labelWidth: 160,
 					name: 'c_de_thnkontrak'
-    			},/*{
-    				xtype:'textfield',
-					fieldLabel:'Klasifikasi (Dimohon)',
-					labelWidth: 160,
-					name: 'c_de_klasifikasi_d'
-    			},{
-    				xtype:'textfield',
-					fieldLabel:'Subklasifikasi (Dimohon)',
-					labelWidth: 160,
-					name: 'c_de_subkla_d'
-    			},{
-    				xtype:'textfield',
-					fieldLabel:'Subkualifikasi (Dimohon)',
-					labelWidth: 160,
-					name: 'c_de_subkua_d'
-    			},*/
-                    {
+    			}, {
                         xtype: 'combobox',
-                        id: 'lines-combo',
+                        id: 'c_klakbli_id',
                         store: 'Klakbli',
                         displayField: 'c_klakbli_id',
                         valueField: 'c_klakbli_desc',
@@ -377,7 +363,7 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
                         labelWidth: 160,
                         listeners:{
                             select : function (cmb, record, options) {
-                                var autosCbx = Ext.getCmp('autos-combo'),
+                                var autosCbx = Ext.getCmp('c_subklakbli_id'),
                                     autosStore = autosCbx.getStore();
 
                                 autosCbx.clearValue();
@@ -386,14 +372,14 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
                                     return item.get('c_klakbli_id') === record.get('c_klakbli_id');
                                 })
                                 autosCbx.enable();
-                                Ext.getCmp('autos-combo').store.reload();
-								Ext.getCmp('kua-combo').store.reload();
+                                Ext.getCmp('c_subklakbli_id').store.reload();
+								Ext.getCmp('c_subkuakbli_kode').store.reload();
                             }
                         }
                     },
                     {
                         xtype: 'combobox',
-                        id: 'autos-combo',
+                        id: 'c_subklakbli_id',
                         store: 'Subklakbli',
                         displayField: 'c_subklakbli_id',
                         valueField: 'c_subklakbli_id',
@@ -411,13 +397,13 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
                     },
                     {
     					xtype:'combobox',
-						id: 'kua-combo',
+						id: 'c_subkuakbli_kode',
 						store: 'Kuakbli',
 						fieldLabel:'Subkualifikasi (Evaluasi)',
 						displayField: 'c_subkuakbli_kode',
 						valueField: 'c_subkuakbli_kode',
 						labelWidth: 160,
-						name: 'c_de_subkua_e'
+						name: 'c_subkuakbli_kode'
     			}],
     			buttons:[{
     				text: 'Tambah',
@@ -426,19 +412,13 @@ Ext.define('Extlp.view.activity.EvalBuForm', {
     					var kskkso = Ext.getCmp('evaldetform').getForm().findField('c_de_kskkso').getValue();
     					var nkpk = Ext.getCmp('evaldetform').getForm().findField('c_de_nkpk').getValue();
     					var thnkontrak = Ext.getCmp('evaldetform').getForm().findField('c_de_thnkontrak').getValue();
-    					var klasifikasi_d = Ext.getCmp('evaldetform').getForm().findField('c_de_klasifikasi_d').getValue();
-    					var subklasifikasi_d = Ext.getCmp('evaldetform').getForm().findField('c_de_subkla_d').getValue();
-    					var subkualifiakasi_d = Ext.getCmp('evaldetform').getForm().findField('c_de_subkua_d').getValue();
-    					var kalsifikasi_e = Ext.getCmp('evaldetform').getForm().findField('c_de_klasifikasi_e').getValue();
-    					var subklasifikasi_e = Ext.getCmp('evaldetform').getForm().findField('c_de_subkla_e').getValue();
-    					var subkualifiakasi_e = Ext.getCmp('evaldetform').getForm().findField('c_de_subkua_e').getValue();
+    					var kalsifikasi_e = Ext.getCmp('evaldetform').getForm().findField('c_klakbli_id').getValue();
+    					var subklasifikasi_e = Ext.getCmp('evaldetform').getForm().findField('c_subklakbli_id').getValue();
+    					var subkualifiakasi_e = Ext.getCmp('evaldetform').getForm().findField('c_subkuakbli_kode').getValue();
     					var r = Ext.create('Extlp.model.EvalBu',{
     							c_de_kskkso: kskkso,
     							c_de_nkpk: nkpk,
     							c_de_thnkontrak: thnkontrak,
-    							c_de_klasifikasi_d: klasifikasi_d,
-    							c_de_subkla_d: subklasifikasi_d,
-    							c_de_subkua_d: subkualifiakasi_d,
     							c_de_klasifikasi_e: kalsifikasi_e,
     							c_de_subkla_e: subklasifikasi_e,
     							c_de_subkua_e: subkualifiakasi_e

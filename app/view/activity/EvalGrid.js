@@ -27,8 +27,8 @@ Ext.define('Extlp.view.activity.EvalGrid', {
             xtype:'actioncolumn',
             text:'Cetak Laporan',
             items:[{
-                icon:'build/development/Extlp/resources/images/button/default-small-arrow.png',
-                tooltip:'Cetak',
+                icon:'build/development/Extlp/resources/images/custom/pdf.png',
+                tooltip:'PDF',
                 handler: function(grid, rowIndex, colIndex){
                     var rec = grid.getStore().getAt(rowIndex);
                     var conn = new Ext.data.Connection();
@@ -44,6 +44,25 @@ Ext.define('Extlp.view.activity.EvalGrid', {
                             console.log('Berhasil');
                         }
                     });*/
+                }
+            },{
+                icon:'build/development/Extlp/resources/images/custom/excel.png',
+                tooltip:'Excel',
+                handler: function(grid, rowIndex, colIndex){
+                    var rec = grid.getStore().getAt(rowIndex);
+                    var conn = new Ext.data.Connection();
+
+                    window.open('services/report/evaluasiRptExcel.php?c_evalbu_id='+rec.get('c_evalbu_id'));
+                    /*conn.request({
+                     method: 'GET',
+                     url: 'services/report/evaluasiRpt.php',
+                     params:{
+                     c_evalbu_id: rec.get('c_evalbu_id')
+                     },
+                     success: function() {
+                     console.log('Berhasil');
+                     }
+                     });*/
                 }
             }]
 
