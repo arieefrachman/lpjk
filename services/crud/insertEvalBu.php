@@ -10,6 +10,11 @@ $bpju    = $_POST['bpju'];
 $jnsbu   = $_POST['jnsbu'];
 $assoc   = $_POST['assoc'];
 
+$nonpwp  = $_POST['nonpwp'];
+$kbli    = $_POST['kbli'];
+$ket     = $_POST['ket'];
+
+
 $detAhli = json_decode($_POST['detAhli']);
 $detEval = json_decode($_POST['detEval']);
 
@@ -29,7 +34,10 @@ foreach ($detAhli as $data) {
 										c_evalbu_noktp,
 										c_evalbu_bpju,
 										c_evalbu_jenisbu,
-										c_assoc_id) 
+										c_assoc_id,
+										c_evalbu_nonpwp,
+										c_evalbu_ket,
+										c_kbli_id) 
 						values			(
 										'".$namabu."',
 										".$kb.",
@@ -37,7 +45,10 @@ foreach ($detAhli as $data) {
 										'".$noktp."',
 										'".$bpju."',
 										".$jnsbu.",
-										'".$assoc."')
+										'".$assoc."',
+										'".$nonpwp."',
+										'".$ket."',
+										".$kbli.")
 										");
 
 $max_evalbu_id = mysql_fetch_array(mysql_query("select max(c_evalbu_id) c_evalbu_id from tbl_evalbu"));

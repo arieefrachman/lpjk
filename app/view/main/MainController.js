@@ -25,13 +25,13 @@ Ext.define('Extlp.view.main.MainController', {
     },
 
     onLogout: function(button, e, options){
-        var me = this; //#1
-        Ext.Ajax.request({
-            url: 'services/login/doLogout.php', //#2
-            scope: me, //#3
-            success: 'onLogoutSuccess', //#4
-            failure: 'onLogoutFailure' //#5
-        });
+        localStorage.removeItem('TutorialLoggedIn');
+
+        // Remove Main View
+        this.getView().destroy();
+
+        // Add the Login Window
+        Ext.widget('login');
     },
 
     onLogoutSuccess: function(){

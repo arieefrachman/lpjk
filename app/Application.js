@@ -34,16 +34,18 @@ Ext.define('Extlp.Application', {
     ],
     
     launch: function () {
-        // TODO - Launch the application
-    //    Ext.create('Extlp.view.login.Login');
+    /*
         Ext.create('Extlp.view.main.Main');
         Ext.setGlyphFontFamily('FontAwesome');
-
-    /*Ext.create('Extlp.NestedGrid',{
-            //plugins:[{ptype:'viewport'}],
-            renderTo:Ext.getBody()
-        });
     */
-    
+        var loggedIn;
+
+        // Check to see the current value of the localStorage key
+        loggedIn = localStorage.getItem("TutorialLoggedIn");
+
+        // This ternary operator determines the value of the TutorialLoggedIn key.
+        // If TutorialLoggedIn isn't true, we display the login window,
+        // otherwise, we display the main view
+        Ext.widget(loggedIn ? 'app-main' : 'login');
     }
 });
