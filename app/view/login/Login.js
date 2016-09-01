@@ -15,7 +15,7 @@ Ext.define('Extlp.view.login.Login', {
 
     items: {
         xtype: 'form',
-        reference: 'form',
+        id: 'loginform',
         items: [{
             xtype: 'textfield',
             name: 'username',

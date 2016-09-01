@@ -4,13 +4,11 @@ session_start(); // #3
 $userName = $_POST['user']; // #4
 $pass = $_POST['password']; // #5
 
-$sql = mysql_query("SELECT * FROM USER WHERE userName='$userName' and password = '$pass'");
+$sql = mysqli_query($conn,"SELECT * FROM users WHERE userName='$userName' and password = '$pass'");
 
-$data = mysql_fetch_array($sql);
+$data = mysqli_fetch_array($sql,MYSQLI_NUM);
 if($data > 0){
-	
-	$_SESSION['is_auth']  = 'yes';
-	$_SESSION['username'] = $data['userName'];
+
 
 	$result['success'] = true; //#17
 	$result['msg'] = 'User authenticated!';
@@ -22,7 +20,7 @@ if($data > 0){
 	
 }
 
-mysql_close($conn);
+mysqli_close($conn);
 
 echo json_encode($result);
 
